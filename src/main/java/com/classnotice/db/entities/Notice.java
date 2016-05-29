@@ -1,15 +1,15 @@
 package com.classnotice.db.entities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.*;
 
 public class Notice {
 	
 	@Autowired
-	private static SimpleJdbcTemplate jdbcTemplate;
+	private static JdbcTemplate jdbcTemplate;
 //============================================
 	private int id;
 	private String title;
@@ -48,7 +48,7 @@ public class Notice {
 //=================================================
 	public static Notice Query(int id){
 		String sql="SELECT * FROM Notice WHERE ID=? ;";
-		return Notice.jdbcTemplate.queryForObject(sql,new ParameterizedRowMapper<Notice>(){
+		return Notice.jdbcTemplate.queryForObject(sql,new RowMapper<Notice>(){
 			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException {
 				Notice notice=new Notice();
 				notice.setID(rs.getInt(1));

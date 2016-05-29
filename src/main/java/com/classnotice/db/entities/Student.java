@@ -82,8 +82,9 @@ public class Student {
 		stmt.executeQuery(sql);
 		ResultSet rs=stmt.getResultSet();
 		rs.first();
-		return new Student(rs.getString("Name"),rs.getString("ID"),rs.getString("Password"),rs.getString("Role"));//create table using these names
+		Student student=new Student(rs.getString("Name"),rs.getString("ID"),rs.getString("Password"),rs.getString("Role"));//create table using these names
 		stmt.close();
+		return student;
 	}
 }
 
