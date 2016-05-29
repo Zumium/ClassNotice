@@ -83,6 +83,7 @@ public class Student {
 		ResultSet rs=stmt.getResultSet();
 		rs.first();
 		return new Student(rs.getString("Name"),rs.getString("ID"),rs.getString("Password"),rs.getString("Role"));//create table using these names
+		stmt.close();
 	}
 }
 
