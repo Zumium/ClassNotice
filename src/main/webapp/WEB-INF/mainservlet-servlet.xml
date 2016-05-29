@@ -25,4 +25,14 @@
 			<bean class="com.classnotice.interceptors.LoginChecker" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="" />
+		<property name="username" value="" />
+		<property name="password" value="" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="10" />
+	</bean>
+
 </beans>
