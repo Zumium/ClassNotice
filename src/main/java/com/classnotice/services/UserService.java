@@ -32,7 +32,10 @@ public class UserService {
 			result=false;
 		}
 		finally{
-			conn.close();
+			try{
+				conn.close();
+			}
+			catch(Exception e){}
 		}
 
 		return result;

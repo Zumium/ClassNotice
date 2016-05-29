@@ -1,4 +1,4 @@
-﻿package com.classnotice.db.entities;
+package com.classnotice.db.entities;
 import java.sql.*;
 
 public class Student {
