@@ -8,4 +8,5 @@ repositories {
 dependencies {
 	compile group: 'org.springframework', name: 'spring-core', version: '4.2.6.RELEASE'
 	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.2.6.RELEASE'
+	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 }
