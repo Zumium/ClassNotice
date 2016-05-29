@@ -7,5 +7,6 @@
     <body>
 	    <h2>${message}</h2>
 	    <h2>${usermessage}</h2>
+	    <a href="/logout">Logout</a>
     </body>
 </html>
