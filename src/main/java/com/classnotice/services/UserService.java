@@ -2,7 +2,7 @@ package com.classnotice.services;
 
 import com.classnotice.beans.Account;
 import com.classnotice.db.entities.Student;
-import con.classnotice.db.StudentDAO;
+import com.classnotice.db.StudentDAO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
