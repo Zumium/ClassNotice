@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.ModelMap;
 
 import com.classnotice.services.NoticeService;
+import com.classnotice.db.entities.Notice;
+
+import java.util.List;
 
 @Controller
 public class HomeController{
@@ -23,6 +26,9 @@ public class HomeController{
 
 		int unreadNoticeCount=noticeService.CountUnreadNotice(uid);
 		model.addAttribute("unreadCount",unreadNoticeCount);
+
+		List<Notice> unreadNotice=noticeService.GetUnreadNotice(uid);
+		model.addAttribute("unreadNotice",unreadNotice);
 
 		return "hello";
 	}
