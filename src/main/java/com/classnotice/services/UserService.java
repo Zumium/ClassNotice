@@ -2,6 +2,7 @@ package com.classnotice.services;
 
 import com.classnotice.beans.Account;
 import com.classnotice.db.entities.Student;
+import con.classnotice.db.StudentDAO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,33 +15,13 @@ import java.sql.Connection;
 public class UserService {
 
 	@Autowired
-	@Qualifier("dataSource")
-	private DataSource dataSource;
+	private StudentDAO studentDao;
 
 	public boolean vertifyUserAccount(Account account) {
-		Connection conn=null;
-		boolean result=false;
-		try{
-			conn=dataSource.getConnection();
-			Student loginStudent=Student.Query(conn,account.getId());
-			if(loginStudent==null){
-				result=false;
-			}
-			result=loginStudent.getPassword().equals(account.getPassword());
+		Student loginStudent=studentDao.Query(account.getId());
+		if(loginStudent==null){
+			return false;
 		}
-		catch(Exception e){
-			result=false;
-		}
-		finally{
-			try{
-				conn.close();
-			}
-			catch(Exception e){}
-		}
-
-		return result;
-		/*String user=(String)account.getId();
-		String password=(String)account.getPassword();
-		return (user.equals("2014220402028")&&password.equals("123456")); */
+		return loginStudent.getPassword().equals(account.getPassword());
 	}
 }
