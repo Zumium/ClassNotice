@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.classnotice.db.entities,Student;
+import com.classnotice.db.entities.Student;
 
 import java.sql.*;
 
