@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -43,6 +43,7 @@ public class LoginControllerTest {
 			.param("id", "2014220402028")
 			.param("password", "123456"))
 			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(redirectedUrl("/"));
+			//.andExpect(status().isOk());
 	}
 }
