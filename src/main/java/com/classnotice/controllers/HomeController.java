@@ -14,6 +14,7 @@ import com.classnotice.db.entities.Notice;
 import java.util.List;
 
 @Controller
+@SessionAttributes({"uid"})
 public class HomeController{
 
 	@Autowired
