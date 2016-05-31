@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -25,6 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginControllerTest {
 	private MockMvc mockMvc;
 
+	@Autowired
+	private WebApplicationContext wac;
+
 	@Mock
 	private UserService userService;
 
@@ -34,7 +39,7 @@ public class LoginControllerTest {
 	@Before
 	public void setup(){
 		MockitoAnnotations.initMocks(this);
-		this.mockMvc=MockMvcBuilders.standaloneSetup(loginController).build();
+		this.mockMvc=MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 
 	@Test
@@ -43,7 +48,7 @@ public class LoginControllerTest {
 			.param("id", "2014220402028")
 			.param("password", "123456"))
 			.andDo(print())
-			.andExpect(redirectedUrl("/"));
+			.andExpect(redirectedUrl("/?uid=2014220402028"));
 			//.andExpect(status().isOk());
 	}
 }
