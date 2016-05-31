@@ -24,6 +24,7 @@ public class NoticeDAO {
 				notice.setTitle(rs.getString(2));
 				notice.setContent(rs.getString(3));
 				notice.setSender(rs.getString(4));
+				notice.setPublishTime(rs.getTimestamp(5));
 				return notice;
 			}
 		},id);

@@ -10,6 +10,7 @@
 	    <h2>You have ${unreadCount} unread notices</h2>
 	    <p>Title: ${unreadNotice[0].title}</p>
 	    <p>Content: ${unreadNotice[0].content}</p>
+	    <p>Publish Time: ${unreadNotice[0].publishTime}</p>
 	    <a href="/logout">Logout</a>
     </body>
 </html>

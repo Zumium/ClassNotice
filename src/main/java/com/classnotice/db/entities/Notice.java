@@ -15,6 +15,7 @@ public class Notice {
 	private String title;
 	private String content;
 	private String sender;
+	private Timestamp publishTime;
 
 	public Notice(){}
 
@@ -45,18 +46,11 @@ public class Notice {
 	public String getSender(){
 		return this.sender;
 	}
-//=================================================
-	public static Notice Query(int id){
-		String sql="SELECT * FROM Notice WHERE ID=? ;";
-		return Notice.jdbcTemplate.queryForObject(sql,new RowMapper<Notice>(){
-			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException {
-				Notice notice=new Notice();
-				notice.setID(rs.getInt(1));
-				notice.setTitle(rs.getString(2));
-				notice.setContent(rs.getString(3));
-				notice.setSender(rs.getString(4));
-				return notice;
-			}
-		},id);
+
+	public void setPublishTime(Timestamp publishTime){
+		this.publishTime=publishTime;
+	}
+	public Timestamp getPublishTime(){
+		return this.publishTime;
 	}
 }
