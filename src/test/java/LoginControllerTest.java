@@ -1,5 +1,5 @@
 import com.classnotice.services.UserService;
-import com.classnotice.controllers.LoginController;
+import com.classnotice.LoginController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/mainservlet.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/mainservlet-servlet.xml")
 public class LoginControllerTest {
 	private MockMvc mockMvc;
 
