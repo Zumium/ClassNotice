@@ -60,4 +60,9 @@ public class NoticeStatusDAO {
 			}
 		},sid,read);
 	}
+
+	public int QueryNoticeCountByRead(String uid,boolean read){
+		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? AND ReadStatus=? ;";
+		return jdbcTemplate.queryForObject(sql,new Object[]{uid,read},Integer.class);
+	}
 }

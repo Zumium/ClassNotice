@@ -21,8 +21,7 @@ public class NoticeService {
 	private NoticeDAO noticeDao;
 
 	public int CountUnreadNotice(String uid){
-		List<NoticeStatus> results=noticeStatusDao.QueryBySidAndReadStatus(uid,false);
-		return results.size();
+		return noticeStatusDao.QueryNoticeCountByRead(uid,false);
 	}
 
 	public List<Notice> GetUnreadNotice(String uid){
