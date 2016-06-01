@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.function.ToLongFunction;
 
 @Service
 public class NoticeService {
@@ -33,6 +35,12 @@ public class NoticeService {
 			Notice notice=noticeDao.Query(noticeStatus.getNid());
 			unreadNotice.add(notice);
 		}
+		unreadNotice.sort(Comparator.comparingLong(new ToLongFunction<Notice>(){
+			public long applyAsLong(Notice notice){
+				return notice.getPublishTime().getTime();
+			}
+		}).reversed());
+
 		return unreadNotice;
 	}
 
