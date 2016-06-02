@@ -43,6 +43,16 @@ public class NoticeService {
 		return convertNoticeStatusToNotice(statusUnread);
 	}
 
+	public List<Notice> getReadNotice(String uid){
+		List<NoticeStatus> statusRead=noticeStatusDao.query(uid,false,true,NoticeStatusDAO.READ);
+		return convertNoticeStatusToNotice(statusRead);
+	}
+
+	public List<Notice> getStarNotice(String uid){
+		List<NoticeStatus> statusStar=noticeStatusDao.query(uid,true,false,NoticeStatusDAO.STAR);
+		return convertNoticeStatusToNotice(statusStar);
+	}
+
 	//Helper function
 	private List<Notice> convertNoticeStatusToNotice(List<NoticeStatus> noticeStatuses){
 		Iterator<NoticeStatus> statusIterator=noticeStatuses.iterator();
