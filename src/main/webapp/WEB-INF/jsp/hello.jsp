@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,11 +8,14 @@
     <body>
 	    <h2>${message}</h2>
 	    <h2>${usermessage}</h2>
+	    <h2>You have ${totalCount} notices totally</h2>
 	    <h2>You have ${unreadCount} unread notices</h2>
-	    <h2>You have ${totalCount} notices</h2>
-	    <p>Title: ${unreadNotice[0].title}</p>
-	    <p>Content: ${unreadNotice[0].content}</p>
-	    <p>Publish Time: ${unreadNotice[0].publishTime}</p>
+
+	    <c:forEach items="${unreadNotice}" var="eachUnread">
+		<p>Title: <c:out value="${eachUnread.title}"/></p>
+		<p>Content: <c:out value="${eachUnread.content}"/></p>
+		<p>Publish Time: <c:out value="${eachUnread.publishTime}"/></p>
+	    </c:forEach>
 	    <a href="/logout">Logout</a>
     </body>
 </html>
