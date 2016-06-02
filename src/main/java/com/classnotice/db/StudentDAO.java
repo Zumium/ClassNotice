@@ -15,7 +15,7 @@ public class StudentDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	public void Insert(Connection conn,Student student)throws SQLException{
+	public void insert(Connection conn,Student student)throws SQLException{
 		String sql = "INSERT INTO Student VALUES (?,?,?,?);";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setString(1, student.getID());
@@ -29,7 +29,7 @@ public class StudentDAO {
 		stmt.close();
 	}
 	
-	public void Update(Connection conn,Student student) throws SQLException{//ID cannot change
+	public void update(Connection conn,Student student) throws SQLException{//ID cannot change
 		String sql = "UPDATE Student SET Name=?,Password=?,Role=? WHERE ID =? ;";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setString(1, student.getName());
@@ -56,7 +56,7 @@ public class StudentDAO {
 		stmt.close();
 		return student;
 	} */
-	public Student Query(String id) {
+	public Student query(String id) {
 		String sql="SELECT * FROM Student WHERE id=? ;";
 		return jdbcTemplate.queryForObject(sql,new RowMapper<Student>(){
 			public Student mapRow(ResultSet rs,int rowNum) throws SQLException{

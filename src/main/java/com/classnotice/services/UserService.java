@@ -18,7 +18,7 @@ public class UserService {
 	private StudentDAO studentDao;
 
 	public boolean vertifyUserAccount(Account account) {
-		Student loginStudent=studentDao.Query(account.getId());
+		Student loginStudent=studentDao.query(account.getId());
 		if(loginStudent==null){
 			return false;
 		}

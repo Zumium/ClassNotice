@@ -25,10 +25,13 @@ public class HomeController{
 		model.addAttribute("message","Hello,Spring MVC");
 		model.addAttribute("usermessage","Welcome,"+uid);
 
-		int unreadNoticeCount=noticeService.CountUnreadNotice(uid);
+		int unreadNoticeCount=noticeService.countUnreadNotice(uid);
 		model.addAttribute("unreadCount",unreadNoticeCount);
 
-		List<Notice> unreadNotice=noticeService.GetUnreadNotice(uid);
+		int totalNoticeCount=noticeService.countTotalNotice(uid);
+		model.addAttribute("totalCount",unreadNoticeCount);
+
+		List<Notice> unreadNotice=noticeService.getUnreadNotice(uid);
 		model.addAttribute("unreadNotice",unreadNotice);
 
 		return "hello";

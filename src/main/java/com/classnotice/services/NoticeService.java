@@ -22,11 +22,15 @@ public class NoticeService {
 	@Autowired
 	private NoticeDAO noticeDao;
 
-	public int CountUnreadNotice(String uid){
+	public int countUnreadNotice(String uid){
 		return noticeStatusDao.queryNoticeCount(uid,false,false,NoticeStatusDAO.READ);
 	}
 
-	public List<Notice> GetUnreadNotice(String uid){
+	public int countTotalNotice(String uid){
+		return noticeStatusDao.queryNoticeCount(uid,false,false,0);
+	}
+
+	public List<Notice> getUnreadNotice(String uid){
 		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,false,false,NoticeStatusDAO.READ);
 		Iterator<NoticeStatus> statusIterator=statusUnread.iterator();
 		List<Notice> unreadNotice=new ArrayList<Notice>();
