@@ -13,10 +13,13 @@ import java.util.ArrayList;
 
 @Repository
 public class NoticeStatusDAO {
+	public static final int STAR=1;
+	public static final int READ=2;
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public NoticeStatus Query(long id){
+	public NoticeStatus query(long id){
 		String sql="SELECT * FROM NoticeStatus WHERE ID=? ;";
 		return jdbcTemplate.queryForObject(sql,new RowMapper<NoticeStatus>(){
 			public NoticeStatus mapRow(ResultSet rs,int rowNum) throws SQLException{
@@ -31,9 +34,22 @@ public class NoticeStatusDAO {
 		},id);
 	}
 
-	public List<NoticeStatus> QueryBySidAndStatus(String sid,boolean star,boolean read){
-		String sql="SELECT * FROM NoticeStatus WHERE Sid=? AND StarStatus=? AND ReadStatus=? ;";
-		return jdbcTemplate.query(sql,new RowMapper<NoticeStatus>(){
+	public List<NoticeStatus> query(String sid,boolean star,boolean read,int flags){
+		String sql="SELECT * FROM NoticeStatus WHERE Sid=? ";
+		List<Object> queryArgs=new ArrayList<Object>();
+
+		queryArgs.add(sid);
+		if((flags & this.STAR) != 0){
+			sql+="AND StarStatus=? ";
+			queryArgs.add(star);
+		}
+		if((flags & this.READ) != 0){
+			sql+="AND ReadStatus=? ";
+			queryArgs.add(read);
+		}
+		sql+=";";
+		//String sql="SELECT * FROM NoticeStatus WHERE Sid=? AND StarStatus=? AND ReadStatus=? ;";
+		return jdbcTemplate.query(sql,queryArgs.toArray(),new RowMapper<NoticeStatus>(){
 			public NoticeStatus mapRow(ResultSet rs,int rowNum) throws SQLException {
 				NoticeStatus status=new NoticeStatus();
 				status.setStatusID(rs.getLong(1));
@@ -43,26 +59,24 @@ public class NoticeStatusDAO {
 				status.setRead(rs.getBoolean(5));
 				return status;
 			}
-		},sid,star,read);
+		});
 	}
 
-	public List<NoticeStatus> QueryBySidAndReadStatus(String sid,boolean read){
-		String sql="SELECT * FROM NoticeStatus WHERE Sid=? AND ReadStatus=? ;";
-		return jdbcTemplate.query(sql,new RowMapper<NoticeStatus>(){
-			public NoticeStatus mapRow(ResultSet rs,int rowNum) throws SQLException {
-				NoticeStatus status=new NoticeStatus();
-				status.setStatusID(rs.getLong(1));
-				status.setSid(rs.getString(2));
-				status.setNid(rs.getInt(3));
-				status.setStar(rs.getBoolean(4));
-				status.setRead(rs.getBoolean(5));
-				return status;
-			}
-		},sid,read);
-	}
+	public int queryNoticeCount(String sid,boolean star,boolean read,int flags){
+		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? ";
+		List<Object> queryArgs=new ArrayList<Object>();
 
-	public int QueryNoticeCountByRead(String uid,boolean read){
-		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? AND ReadStatus=? ;";
-		return jdbcTemplate.queryForObject(sql,new Object[]{uid,read},Integer.class);
+		queryArgs.add(sid);
+		if((flags & this.STAR) != 0){
+			sql+="AND StarStatus=? ";
+			queryArgs.add(star);
+		}
+		if((flags & this.READ) != 0){
+			sql+="AND ReadStatus=? ";
+			queryArgs.add(read);
+		}
+		sql+=";";
+		//String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? AND ReadStatus=? ;";
+		return jdbcTemplate.queryForObject(sql,queryArgs.toArray(),Integer.class);
 	}
 }

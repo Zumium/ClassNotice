@@ -23,16 +23,16 @@ public class NoticeService {
 	private NoticeDAO noticeDao;
 
 	public int CountUnreadNotice(String uid){
-		return noticeStatusDao.QueryNoticeCountByRead(uid,false);
+		return noticeStatusDao.queryNoticeCount(uid,false,false,NoticeStatusDAO.READ);
 	}
 
 	public List<Notice> GetUnreadNotice(String uid){
-		List<NoticeStatus> statusUnread=noticeStatusDao.QueryBySidAndReadStatus(uid,false);
+		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,false,false,NoticeStatusDAO.READ);
 		Iterator<NoticeStatus> statusIterator=statusUnread.iterator();
 		List<Notice> unreadNotice=new ArrayList<Notice>();
 		while(statusIterator.hasNext()){
 			NoticeStatus noticeStatus=statusIterator.next();
-			Notice notice=noticeDao.Query(noticeStatus.getNid());
+			Notice notice=noticeDao.query(noticeStatus.getNid());
 			unreadNotice.add(notice);
 		}
 		unreadNotice.sort(Comparator.comparingLong(new ToLongFunction<Notice>(){

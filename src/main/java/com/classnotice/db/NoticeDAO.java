@@ -15,7 +15,7 @@ public class NoticeDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public Notice Query(int id){
+	public Notice query(int id){
 		String sql="SELECT * FROM Notice WHERE ID=? ;";
 		return jdbcTemplate.queryForObject(sql,new RowMapper<Notice>(){
 			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException {
