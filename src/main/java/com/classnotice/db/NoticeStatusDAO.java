@@ -79,4 +79,9 @@ public class NoticeStatusDAO {
 		//String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? AND ReadStatus=? ;";
 		return jdbcTemplate.queryForObject(sql,queryArgs.toArray(),Integer.class);
 	}
+
+	public void update(NoticeStatus noticeStatus){
+		String sql="UPDATE NoticeStatus SET StarStatus=?,ReadStatus=? WHERE ID=? ;";
+		jdbcTemplate.update(sql,noticeStatus.getStar(),noticeStatus.getRead(),noticeStatus.getStatusID());
+	}
 }
