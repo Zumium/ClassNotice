@@ -26,26 +26,38 @@ public class NoticeService {
 		return noticeStatusDao.queryNoticeCount(uid,false,false,NoticeStatusDAO.READ);
 	}
 
+	public int countReadNotice(String uid){
+		return noticeStatusDao.queryNoticeCount(uid,false,true,NoticeStatusDAO.READ);
+	}
+
+	public int countStarNotice(String uid){
+		return noticeStatusDao.queryNoticeCount(uid,true,false,NoticeStatusDAO.STAR);
+	}
+
 	public int countTotalNotice(String uid){
 		return noticeStatusDao.queryNoticeCount(uid,false,false,0);
 	}
 
 	public List<Notice> getUnreadNotice(String uid){
 		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,false,false,NoticeStatusDAO.READ);
-		Iterator<NoticeStatus> statusIterator=statusUnread.iterator();
-		List<Notice> unreadNotice=new ArrayList<Notice>();
+		return convertNoticeStatusToNotice(statusUnread);
+	}
+
+	//Helper function
+	private List<Notice> convertNoticeStatusToNotice(List<NoticeStatus> noticeStatuses){
+		Iterator<NoticeStatus> statusIterator=noticeStatuses.iterator();
+		List<Notice> notices=new ArrayList<Notice>();
 		while(statusIterator.hasNext()){
 			NoticeStatus noticeStatus=statusIterator.next();
 			Notice notice=noticeDao.query(noticeStatus.getNid());
-			unreadNotice.add(notice);
+			notices.add(notice);
 		}
-		unreadNotice.sort(Comparator.comparingLong(new ToLongFunction<Notice>(){
+		notices.sort(Comparator.comparingLong(new ToLongFunction<Notice>(){
 			public long applyAsLong(Notice notice){
 				return notice.getPublishTime().getTime();
 			}
 		}).reversed());
 
-		return unreadNotice;
+		return notices;
 	}
-
 }
