@@ -13,17 +13,17 @@
 		<img id="headsculpture" src="${selfPortrait}">
 		<ul class="list-group">
 			<a href="/">
-			<li class="list-group-item list-active">
+			<li class="list-group-item <c:if test="${pageIndex==0}"><c:out value="list-active"/></c:if>">
 				<span class="badge">${unreadCount}</span>未读通知
 			</li>
 			</a>
 			<a href="/read">
-			<li class="list-group-item">
+			<li class="list-group-item <c:if test="${pageIndex==1}"><c:out value="list-active"/></c:if>">
 				<span class="badge">${readCount}</span>已读通知
 			</li>
 			</a>
 			<a href="/star">
-			<li class="list-group-item">
+			<li class="list-group-item <c:if test="${pageIndex==2}"><c:out value="list-active"/></c:if>">
 				<span class="badge">${starCount}</span>标星通知
 			</li>
 			</a>

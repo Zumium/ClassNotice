@@ -38,6 +38,7 @@ public class HomeController{
 	@RequestMapping(path="/",method=RequestMethod.GET)
 	public String showUnreadList(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("pageTitle","未读通知");
+		model.addAttribute("pageIndex",0);
 		//Assemble main list using "ListItem" bean
 		List<Notice> unreadNotices=noticeService.getUnreadNotice(uid);
 		model.addAttribute("listItems",produceListItems(unreadNotices));
@@ -48,6 +49,7 @@ public class HomeController{
 	@RequestMapping(path="/read",method=RequestMethod.GET)
 	public String showReadList(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("pageTitle","已读通知");
+		model.addAttribute("pageIndex",1);
 		//Assemble main list using "ListItem" bean
 		List<Notice> readNotices=noticeService.getReadNotice(uid);
 		model.addAttribute("listItems",produceListItems(readNotices));
@@ -58,6 +60,7 @@ public class HomeController{
 	@RequestMapping(path="/star",method=RequestMethod.GET)
 	public String showStarList(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("pageTitle","标星通知");
+		model.addAttribute("pageIndex",2);
 		//Assemble main list using "ListItem" bean
 		List<Notice> starNotices=noticeService.getStarNotice(uid);
 		model.addAttribute("listItems",produceListItems(starNotices));
