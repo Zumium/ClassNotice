@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
+import java.io.File;
 
 @Service
 public class UserService {
@@ -17,11 +16,22 @@ public class UserService {
 	@Autowired
 	private StudentDAO studentDao;
 
+	@Autowired
+	private String portraitsFolderPath;
+
 	public boolean vertifyUserAccount(Account account) {
 		Student loginStudent=studentDao.query(account.getId());
 		if(loginStudent==null){
 			return false;
 		}
 		return loginStudent.getPassword().equals(account.getPassword());
+	}
+
+	public String getPortraitUrl(String sid) {
+		File file=new File(portraitsFolderPath+sid);
+		if(file.exists()){
+			return "/portraits/"+sid;
+		}
+		return "/portraits/default";
 	}
 }

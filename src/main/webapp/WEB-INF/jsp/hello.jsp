@@ -7,6 +7,7 @@
     </head>
     <body>
 	    <h2>${message}</h2>
+	    <img src="${portraitUrl}">
 	    <h2>${usermessage}</h2>
 	    <h2>You have ${totalCount} notices totally</h2>
 	    <h2>You have ${unreadCount} unread notices</h2>

@@ -42,4 +42,7 @@
 		<constructor-arg ref="dataSource" />
 	</bean>
 
+	<bean id="portraitsFolderPath" class="java.lang.String">
+		<constructor-arg index="0" value="/home/martin/ClassNoticeResources/portraits/" />
+	</bean>
 </beans>

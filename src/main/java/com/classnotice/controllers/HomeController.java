@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.ModelMap;
 
 import com.classnotice.services.NoticeService;
+import com.classnotice.services.UserService;
 import com.classnotice.db.entities.Notice;
 
 import java.util.List;
@@ -19,11 +20,15 @@ public class HomeController{
 
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(path="/",method=RequestMethod.GET)
 	public String printHello(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("message","Hello,Spring MVC");
 		model.addAttribute("usermessage","Welcome,"+uid);
+
+		model.addAttribute("portraitUrl",userService.getPortraitUrl(uid));
 
 		int unreadNoticeCount=noticeService.countUnreadNotice(uid);
 		model.addAttribute("unreadCount",unreadNoticeCount);
