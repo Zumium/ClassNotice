@@ -5,10 +5,12 @@ import com.classnotice.db.entities.Student;
 
 public class ListItem {
 	private static final String bannerDash="-";
+	private static final String noticeUrlPrefix="/notice/";
 
 	private Notice notice;
 	private String senderBanner;
 	private String senderPortrait;
+	private String noticePath;
 
 	public ListItem(){}
 
@@ -20,6 +22,7 @@ public class ListItem {
 
 	public void setNotice(Notice notice){
 		this.notice=notice;
+		this.noticePath=noticeUrlPrefix+notice.getID();
 	}
 	public Notice getNotice(){
 		return this.notice;
@@ -40,5 +43,12 @@ public class ListItem {
 	}
 	public String getSenderPortrait(){
 		return this.senderPortrait;
+	}
+
+	public void setNoticePath(String noticePath){
+		this.noticePath=noticePath;
+	}
+	public String getNoticePath(){
+		return this.noticePath;
 	}
 }

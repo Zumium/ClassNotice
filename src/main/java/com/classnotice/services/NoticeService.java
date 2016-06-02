@@ -53,6 +53,10 @@ public class NoticeService {
 		return convertNoticeStatusToNotice(statusStar);
 	}
 
+	public Notice getNotice(int nid){
+		return noticeDao.query(nid);
+	}
+
 	//Helper function
 	private List<Notice> convertNoticeStatusToNotice(List<NoticeStatus> noticeStatuses){
 		Iterator<NoticeStatus> statusIterator=noticeStatuses.iterator();

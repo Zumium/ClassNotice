@@ -28,7 +28,7 @@ public class HomeController{
 	private UserService userService;
 
 	@RequestMapping(path="/",method=RequestMethod.GET)
-	public String printHello(@ModelAttribute("uid") String uid,ModelMap model){
+	public String showList(@ModelAttribute("uid") String uid,ModelMap model){
 
 	/*	model.addAttribute("portraitUrl",userService.getPortraitUrl(uid));
 
