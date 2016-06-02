@@ -3,6 +3,7 @@ package com.classnotice.services;
 import com.classnotice.beans.Account;
 import com.classnotice.db.entities.Student;
 import com.classnotice.db.StudentDAO;
+import com.classnotice.db.PortraitDAO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class UserService {
 
 	@Autowired
 	private StudentDAO studentDao;
+	@Autowired
+	private PortraitDAO portraitDao;
 
 	@Autowired
 	private String portraitsFolderPath;
@@ -28,8 +31,7 @@ public class UserService {
 	}
 
 	public String getPortraitUrl(String sid) {
-		File file=new File(portraitsFolderPath+sid);
-		if(file.exists()){
+		if(portraitDao.queryPortraitExists(sid)){
 			return "/portraits/"+sid;
 		}
 		return "/portraits/default";
