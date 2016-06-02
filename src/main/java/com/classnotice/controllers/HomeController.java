@@ -27,30 +27,29 @@ public class HomeController{
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(path="/",method=RequestMethod.GET)
-	public String showList(@ModelAttribute("uid") String uid,ModelMap model){
-
-	/*	model.addAttribute("portraitUrl",userService.getPortraitUrl(uid));
-
-		int unreadNoticeCount=noticeService.countUnreadNotice(uid);
-		model.addAttribute("unreadCount",unreadNoticeCount);
-
-		int totalNoticeCount=noticeService.countTotalNotice(uid);
-		model.addAttribute("totalCount",unreadNoticeCount);
-
-		List<Notice> unreadNotice=noticeService.getUnreadNotice(uid);
-		model.addAttribute("unreadNotice",unreadNotice);
-	*/
-		model.addAttribute("pageTitle","未读通知");
+	@ModelAttribute
+	public void setPersonalInfo(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("selfPortrait",userService.getPortraitUrl(uid));
 		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
 		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 		model.addAttribute("starCount",noticeService.countStarNotice(uid));
+	}
+
+	@RequestMapping(path="/",method=RequestMethod.GET)
+	public String showList(@ModelAttribute("uid") String uid,ModelMap model){
+		model.addAttribute("pageTitle","未读通知");
 		//Assemble main list using "ListItem" bean
+		List<Notice> unreadNotices=noticeService.getUnreadNotice(uid);
+		model.addAttribute("listItems",produceListItems(unreadNotices));
+
+		return "noticeList";
+	}
+
+	//helper function
+	private List<ListItem> produceListItems(List<Notice> notices){
 		List<ListItem> listItems=new ArrayList<ListItem>();
 
-		List<Notice> unreadNotices=noticeService.getUnreadNotice(uid);
-		Iterator<Notice> noticeIterator=unreadNotices.iterator();
+		Iterator<Notice> noticeIterator=notices.iterator();
 		while(noticeIterator.hasNext()){
 			ListItem eachItem=new ListItem();
 
@@ -61,8 +60,6 @@ public class HomeController{
 
 			listItems.add(eachItem);
 		}
-		model.addAttribute("listItems",listItems);
-
-		return "noticeList";
+		return listItems;
 	}
 }
