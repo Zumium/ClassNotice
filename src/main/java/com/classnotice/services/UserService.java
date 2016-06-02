@@ -36,4 +36,8 @@ public class UserService {
 		}
 		return "/portraits/default";
 	}
+
+	public Student getStudent(String sid){
+		return studentDao.query(sid);
+	}
 }
