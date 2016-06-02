@@ -28,21 +28,30 @@ public class PageController{
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(path="/notice/{noticeId}",method=RequestMethod.GET)
-	public String showNotice(@ModelAttribute("uid") String uid,@PathVariable int noticeId,ModelMap model){
-		model.addAttribute("pageTitle","通知阅读");
+	@ModelAttribute
+	public void setPersonalInfo(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("selfPortrait",userService.getPortraitUrl(uid));
 		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
 		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 		model.addAttribute("starCount",noticeService.countStarNotice(uid));
+	}
+
+	@RequestMapping(path="/notice/{noticeId}",method=RequestMethod.GET)
+	public String showNotice(@ModelAttribute("uid") String uid,@PathVariable int noticeId,ModelMap model){
+		model.addAttribute("pageTitle","通知阅读");
 		//Find the notice and set it up,then put it into model
 		Notice notice=noticeService.getNotice(noticeId);
+		model.addAttribute("noticeItem",convertToListItem(notice));
+
+		return "readPage";
+	}
+
+	//helper function
+	private ListItem convertToListItem(Notice notice){
 		ListItem item=new ListItem();
 		item.setNotice(notice);
 		item.setSenderBanner(userService.getStudent(notice.getSender()));
 		item.setSenderPortrait(userService.getPortraitUrl(notice.getSender()));
-		model.addAttribute("noticeItem",item);
-
-		return "readPage";
+		return item;
 	}
 }
