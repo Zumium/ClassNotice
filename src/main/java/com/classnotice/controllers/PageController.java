@@ -4,9 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.ModelMap;
 
 import com.classnotice.services.NoticeService;
@@ -47,6 +49,17 @@ public class PageController{
 		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 
 		return "readPage";
+	}
+
+	@RequestMapping(path="/ajax/notice/{noticeId}/star",method=RequestMethod.POST)
+	public void ajaxSetNoticeStatus(@ModelAttribute("uid") String uid,@PathVariable int noticeId,@RequestParam boolean star){
+		noticeService.setStar(uid,noticeId,star);
+	}
+
+	@RequestMapping(path="/ajax/starcount",method=RequestMethod.GET)
+	@ResponseBody
+	public int ajaxGetStarCount(@ModelAttribute("uid") String uid){
+		return noticeService.countStarNotice(uid);
 	}
 
 	//helper function
