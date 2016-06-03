@@ -41,7 +41,7 @@ public class HomeController{
 		model.addAttribute("pageIndex",0);
 		//Assemble main list using "ListItem" bean
 		List<Notice> unreadNotices=noticeService.getUnreadNotice(uid);
-		model.addAttribute("listItems",produceListItems(unreadNotices));
+		model.addAttribute("listItems",produceListItems(unreadNotices,uid));
 
 		return "noticeList";
 	}
@@ -52,7 +52,7 @@ public class HomeController{
 		model.addAttribute("pageIndex",1);
 		//Assemble main list using "ListItem" bean
 		List<Notice> readNotices=noticeService.getReadNotice(uid);
-		model.addAttribute("listItems",produceListItems(readNotices));
+		model.addAttribute("listItems",produceListItems(readNotices,uid));
 
 		return "noticeList";
 	}
@@ -63,13 +63,13 @@ public class HomeController{
 		model.addAttribute("pageIndex",2);
 		//Assemble main list using "ListItem" bean
 		List<Notice> starNotices=noticeService.getStarNotice(uid);
-		model.addAttribute("listItems",produceListItems(starNotices));
+		model.addAttribute("listItems",produceListItems(starNotices,uid));
 
 		return "noticeList";
 	}
 
 	//helper function
-	private List<ListItem> produceListItems(List<Notice> notices){
+	private List<ListItem> produceListItems(List<Notice> notices,String uid){
 		List<ListItem> listItems=new ArrayList<ListItem>();
 
 		Iterator<Notice> noticeIterator=notices.iterator();
@@ -80,6 +80,7 @@ public class HomeController{
 			eachItem.setNotice(eachNotice);
 			eachItem.setSenderPortrait(userService.getPortraitUrl(eachNotice.getSender()));
 			eachItem.setSenderBanner(userService.getStudent(eachNotice.getSender()));
+			eachItem.setStar(noticeService.getStar(uid,eachNotice.getID()));
 
 			listItems.add(eachItem);
 		}

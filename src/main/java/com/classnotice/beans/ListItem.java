@@ -11,6 +11,7 @@ public class ListItem {
 	private String senderBanner;
 	private String senderPortrait;
 	private String noticePath;
+	private boolean star;
 
 	public ListItem(){}
 
@@ -50,5 +51,12 @@ public class ListItem {
 	}
 	public String getNoticePath(){
 		return this.noticePath;
+	}
+
+	public void setStar(boolean star){
+		this.star=star;
+	}
+	public boolean getStar(){
+		return this.star;
 	}
 }

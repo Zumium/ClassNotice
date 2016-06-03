@@ -70,6 +70,10 @@ public class NoticeService {
 		status.setRead(read);
 		noticeStatusDao.update(status);
 	}
+	
+	public boolean getStar(String sid,int nid){
+		return noticeStatusDao.query(sid,nid).getStar();
+	}
 
 	//Helper function
 	private List<Notice> convertNoticeStatusToNotice(List<NoticeStatus> noticeStatuses){
