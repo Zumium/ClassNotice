@@ -34,6 +34,21 @@ public class NoticeStatusDAO {
 		},id);
 	}
 
+	public NoticeStatus query(String sid,int nid){
+		String sql="SELECT * FROM NoticeStatus WHERE Sid=? AND Nid=? ;";
+		return jdbcTemplate.queryForObject(sql,new RowMapper<NoticeStatus>(){
+			public NoticeStatus mapRow(ResultSet rs,int rowNum) throws SQLException{
+				NoticeStatus status=new NoticeStatus();
+				status.setStatusID(rs.getLong(1));
+				status.setSid(rs.getString(2));
+				status.setNid(rs.getInt(3));
+				status.setStar(rs.getBoolean(4));
+				status.setRead(rs.getBoolean(5));
+				return status;
+			}
+		},sid,nid);
+	}
+
 	public List<NoticeStatus> query(String sid,boolean star,boolean read,int flags){
 		String sql="SELECT * FROM NoticeStatus WHERE Sid=? ";
 		List<Object> queryArgs=new ArrayList<Object>();

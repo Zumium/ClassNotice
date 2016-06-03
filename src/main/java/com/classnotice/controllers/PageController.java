@@ -31,8 +31,6 @@ public class PageController{
 	@ModelAttribute
 	public void setPersonalInfo(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("selfPortrait",userService.getPortraitUrl(uid));
-		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
-		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 		model.addAttribute("starCount",noticeService.countStarNotice(uid));
 	}
 
@@ -42,6 +40,11 @@ public class PageController{
 		//Find the notice and set it up,then put it into model
 		Notice notice=noticeService.getNotice(noticeId);
 		model.addAttribute("noticeItem",convertToListItem(notice));
+		//Set read status to true
+		noticeService.setRead(uid,noticeId,true);
+		//Calculate page counts
+		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
+		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 
 		return "readPage";
 	}

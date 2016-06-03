@@ -57,6 +57,20 @@ public class NoticeService {
 		return noticeDao.query(nid);
 	}
 
+	public void setStar(String sid,int nid,boolean star){
+		NoticeStatus status=noticeStatusDao.query(sid,nid);
+		if(status.getStar()==star) return; //avoid useless i/o
+		status.setStar(star);
+		noticeStatusDao.update(status);
+	}
+
+	public void setRead(String sid,int nid,boolean read){
+		NoticeStatus status=noticeStatusDao.query(sid,nid);
+		if(status.getRead()==read) return; //avoid useless i/o
+		status.setRead(read);
+		noticeStatusDao.update(status);
+	}
+
 	//Helper function
 	private List<Notice> convertNoticeStatusToNotice(List<NoticeStatus> noticeStatuses){
 		Iterator<NoticeStatus> statusIterator=noticeStatuses.iterator();
