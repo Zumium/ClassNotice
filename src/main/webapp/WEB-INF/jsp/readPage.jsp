@@ -24,7 +24,7 @@
 			</a>
 			<a href="/star">
 				<li class="list-group-item">
-					<span class="badge">${starCount}</span>标星通知
+					<span id="starCountDisplayer" class="badge">${starCount}</span>标星通知
 				</li>
 			</a>
 		</ul>
@@ -33,7 +33,7 @@
 		<div class="paper">
 			<h2>${noticeItem.notice.title}</h2>
 			<div class="block_star">
-				<input id="chkbox_star" class="input_check" type="checkbox" checked="${noticeItem.star}" />
+				<input id="chkbox_star" class="input_check" type="checkbox" <c:if test="${noticeItem.star==true}"><c:out value="checked"/></c:if> />
 				<label for="chkbox_star" class="img_star" >
 				</label>
 			</div>
@@ -46,5 +46,6 @@
 
 	<script src="/resources/js/jquery.min.js"></script>
  	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/readPage.js"></script>
 </body>
 </html>

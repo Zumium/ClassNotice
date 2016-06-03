@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.ModelMap;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import com.classnotice.services.NoticeService;
 import com.classnotice.services.UserService;
@@ -42,7 +44,7 @@ public class PageController{
 		model.addAttribute("pageTitle","通知阅读");
 		//Find the notice and set it up,then put it into model
 		Notice notice=noticeService.getNotice(noticeId);
-		model.addAttribute("noticeItem",convertToListItem(notice));
+		model.addAttribute("noticeItem",convertToListItem(notice,uid));
 		//Set read status to true
 		noticeService.setRead(uid,noticeId,true);
 		//Calculate page counts
@@ -53,8 +55,9 @@ public class PageController{
 	}
 
 	@RequestMapping(path="/ajax/notice/{noticeId}/star",method=RequestMethod.POST,consumes="application/json")
-	public void ajaxSetNoticeStatus(@ModelAttribute("uid") String uid,@PathVariable int noticeId,@RequestBody StarStatus starStatus){
+	public ResponseEntity ajaxSetNoticeStatus(@ModelAttribute("uid") String uid,@PathVariable int noticeId,@RequestBody StarStatus starStatus){
 		noticeService.setStar(uid,noticeId,starStatus.getStar());
+		return new ResponseEntity(HttpStatus.valueOf(200));
 	}
 
 	@RequestMapping(path="/ajax/starcount",method=RequestMethod.GET,produces="application/json")
@@ -65,11 +68,12 @@ public class PageController{
 	}
 
 	//helper function
-	private ListItem convertToListItem(Notice notice){
+	private ListItem convertToListItem(Notice notice,String uid){
 		ListItem item=new ListItem();
 		item.setNotice(notice);
 		item.setSenderBanner(userService.getStudent(notice.getSender()));
 		item.setSenderPortrait(userService.getPortraitUrl(notice.getSender()));
+		item.setStar(noticeService.getStar(uid,notice.getID()));
 		return item;
 	}
 }
