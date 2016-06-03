@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +16,7 @@ import com.classnotice.services.UserService;
 import com.classnotice.db.entities.Notice;
 import com.classnotice.db.entities.Student;
 import com.classnotice.beans.ListItem;
+import com.classnotice.beans.StarStatus;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -51,15 +52,16 @@ public class PageController{
 		return "readPage";
 	}
 
-	@RequestMapping(path="/ajax/notice/{noticeId}/star",method=RequestMethod.POST)
-	public void ajaxSetNoticeStatus(@ModelAttribute("uid") String uid,@PathVariable int noticeId,@RequestParam boolean star){
-		noticeService.setStar(uid,noticeId,star);
+	@RequestMapping(path="/ajax/notice/{noticeId}/star",method=RequestMethod.POST,consumes="application/json")
+	public void ajaxSetNoticeStatus(@ModelAttribute("uid") String uid,@PathVariable int noticeId,@RequestBody StarStatus starStatus){
+		noticeService.setStar(uid,noticeId,starStatus.getStar());
 	}
 
-	@RequestMapping(path="/ajax/starcount",method=RequestMethod.GET)
+	@RequestMapping(path="/ajax/starcount",method=RequestMethod.GET,produces="application/json")
 	@ResponseBody
-	public int ajaxGetStarCount(@ModelAttribute("uid") String uid){
-		return noticeService.countStarNotice(uid);
+	public String ajaxGetStarCount(@ModelAttribute("uid") String uid){
+		int count=noticeService.countStarNotice(uid);
+		return "{\"num\":"+count+"}";
 	}
 
 	//helper function
