@@ -29,12 +29,12 @@
 			</a>
 			<c:if test="${isAdmin==true}">
 			<a href="/readStatus">
-				<li class="list-group-item <c:if test="${pageIndex==3}"><c:out value="list-active"/></c:if>">
+				<li class="list-group-item">
 					<span class="badge">${sentCount}</span>通知阅读情况
 				</li>
 			</a>
 			<a href="/publishNotice">
-				<li class="list-group-item <c:if test="${pageIndex==4}"><c:out value="list-active"/></c:if>">
+				<li class="list-group-item">
 					发布通知
 				</li>
 			</a>

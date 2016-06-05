@@ -41,17 +41,19 @@
 	</div>
 	<div class="right">
 		<ul class="media-list">
-			<a href="">	
+			<c:forEach items="${readStatuses}" var="eachStatus">
+			<a href="${eachStatus.noticePath}">	
 			<li class="media">
 				<div class="media-body">
 					<h4 class="media-heading">
-						2016年端午节放假安排
-						<time>2016/5/31 12:00</time>
-						<p class="readnum">阅读人数：<span>20人</span></p>
+						${eachStatus.notice.title}
+						<time>${eachStatus.notice.publishTime}</time>
+						<p class="readnum">阅读人数：<span>${eachStatus.readCount}人</span></p>
 					</h4>
 				</div>
 			</li>
 			</a>
+			</c:forEach>
 		</ul>
 	</div>
 

@@ -37,6 +37,8 @@ public class PageController{
 	public void setPersonalInfo(@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("selfPortrait",userService.getPortraitUrl(uid));
 		model.addAttribute("starCount",noticeService.countStarNotice(uid));
+		model.addAttribute("sentCount",noticeService.countSentNotice(uid));
+		model.addAttribute("isAdmin",userService.isAdmin(uid));
 	}
 
 	@RequestMapping(path="/notice/{noticeId}",method=RequestMethod.GET)

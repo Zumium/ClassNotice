@@ -18,6 +18,8 @@ import java.util.function.ToLongFunction;
 @Service
 public class NoticeService {
 
+	private static final String NOTICE_PATH_BASE="/notice/";
+
 	@Autowired
 	private NoticeStatusDAO noticeStatusDao;
 	@Autowired
@@ -30,6 +32,9 @@ public class NoticeService {
 	public int countReadNotice(String uid){
 		return noticeStatusDao.queryNoticeCount(uid,false,true,NoticeStatusDAO.READ);
 	}
+	public int countReadNotice(int nid){
+		return noticeStatusDao.queryNoticeCount(nid,false,true,NoticeStatusDAO.READ);
+	}
 
 	public int countStarNotice(String uid){
 		return noticeStatusDao.queryNoticeCount(uid,true,false,NoticeStatusDAO.STAR);
@@ -37,6 +42,10 @@ public class NoticeService {
 
 	public int countTotalNotice(String uid){
 		return noticeStatusDao.queryNoticeCount(uid,false,false,0);
+	}
+
+	public int countSentNotice(String sender){
+		return noticeDao.queryCountBySender(sender);
 	}
 
 	public List<Notice> getUnreadNotice(String uid){
@@ -52,6 +61,10 @@ public class NoticeService {
 	public List<Notice> getStarNotice(String uid){
 		List<NoticeStatus> statusStar=noticeStatusDao.query(uid,true,false,NoticeStatusDAO.STAR);
 		return convertNoticeStatusToNotice(statusStar);
+	}
+
+	public List<Notice> getSentNotice(String sender){
+		return noticeDao.queryBySender(sender);
 	}
 
 	public Notice getNotice(int nid){
@@ -88,6 +101,10 @@ public class NoticeService {
 		for(String receiver: receivers){
 			noticeStatusDao.insert(new NoticeStatus(receiver,notice.getID(),false,false));
 		}
+	}
+	
+	public String getNoticePath(int nid){
+		return NOTICE_PATH_BASE+nid;
 	}
 
 	//Helper function

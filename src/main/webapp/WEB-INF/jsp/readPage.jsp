@@ -27,6 +27,18 @@
 					<span id="starCountDisplayer" class="badge">${starCount}</span>标星通知
 				</li>
 			</a>
+			<c:if test="${isAdmin==true}">
+			<a href="/readStatus">
+				<li class="list-group-item">
+					<span class="badge">${sentCount}</span>通知阅读情况
+				</li>
+			</a>
+			<a href="/publishNotice">
+				<li class="list-group-item">
+					发布通知
+				</li>
+			</a>
+			</c:if>
 		</ul>
 	</div>
 	<div class="right">

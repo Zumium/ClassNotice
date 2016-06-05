@@ -13,6 +13,7 @@ import com.classnotice.services.UserService;
 import com.classnotice.db.entities.Notice;
 import com.classnotice.db.entities.Student;
 import com.classnotice.beans.ListItem;
+import com.classnotice.beans.ReadStatus;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class HomeController{
 		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
 		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 		model.addAttribute("starCount",noticeService.countStarNotice(uid));
+		model.addAttribute("sentCount",noticeService.countSentNotice(uid));
 		model.addAttribute("isAdmin",userService.isAdmin(uid));
 	}
 
@@ -69,6 +71,13 @@ public class HomeController{
 		return "noticeList";
 	}
 
+	@RequestMapping(path="/readStatus",method=RequestMethod.GET)
+	public String showReadStatus(@ModelAttribute("uid") String uid,ModelMap model){
+		List<Notice> sentNotices=noticeService.getSentNotice(uid);
+		model.addAttribute("readStatuses",produceReadStatuses(sentNotices));
+		return "readStatus";
+	}
+
 	@RequestMapping(path="/publishNotice",method=RequestMethod.GET)
 	public String showPublishNoticePage(){
 		return "newNotice";
@@ -91,5 +100,20 @@ public class HomeController{
 			listItems.add(eachItem);
 		}
 		return listItems;
+	}
+
+	private List<ReadStatus> produceReadStatuses(List<Notice> notices){
+		List<ReadStatus> readStatuses=new ArrayList<ReadStatus>();
+		Iterator<Notice> noticeIterator=notices.iterator();
+	       	while(noticeIterator.hasNext()){	
+			Notice notice=noticeIterator.next();
+
+			ReadStatus newStatus=new ReadStatus();
+			newStatus.setNotice(notice);
+			newStatus.setReadCount(noticeService.countReadNotice(notice.getID()));
+			newStatus.setNoticePath(noticeService.getNoticePath(notice.getID()));
+			readStatuses.add(newStatus);
+		}
+		return readStatuses;
 	}
 }

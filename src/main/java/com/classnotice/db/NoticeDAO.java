@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import com.classnotice.db.entities.Notice;
 
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public class NoticeDAO {
@@ -31,6 +33,25 @@ public class NoticeDAO {
 				return notice;
 			}
 		},id);
+	}
+
+	public List<Notice> queryBySender(String sender){
+		String sql="SELECT * FROM Notice WHERE Sender=? ORDER BY PublishTime DESC ;";
+		return jdbcTemplate.query(sql,new RowMapper<Notice>(){
+			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException{
+				Notice notice=new Notice();
+				notice.setID(rs.getInt(1));
+				notice.setTitle(rs.getString(2));
+				notice.setContent(rs.getString(3));
+				notice.setSender(rs.getString(4));
+				notice.setPublishTime(rs.getTimestamp(5));
+				return notice;
+			}
+		},sender);
+	}
+	public int queryCountBySender(String sender){
+		String sql="SELECT COUNT(*) FROM Notice WHERE Sender=? ;";
+		return jdbcTemplate.queryForObject(sql,Integer.class,sender);
 	}
 	
 	public void insert(Notice notice){

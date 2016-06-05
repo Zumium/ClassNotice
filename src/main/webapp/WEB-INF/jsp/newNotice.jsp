@@ -45,7 +45,7 @@
 				<label class="label_paper">主题</label>
 				<input class="subject" name="title"/>	<br />
 				<label class="label_paper">通知接收者</label>
-				<input type="radio" name="receiversGroup" value="all"/>全体同学
+				<input type="radio" name="receiversGroup" value="all" checked/>全体同学
 				<input type="radio" name="receiversGroup" value="committee"/>班委  <br>
 			</form>
 				<label class="label_paper">正文</label>				

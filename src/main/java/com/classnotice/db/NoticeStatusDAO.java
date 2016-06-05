@@ -95,6 +95,23 @@ public class NoticeStatusDAO {
 		return jdbcTemplate.queryForObject(sql,queryArgs.toArray(),Integer.class);
 	}
 
+	public int queryNoticeCount(int nid,boolean star,boolean read,int flags){
+		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Nid=? ";
+		List<Object> queryArgs=new ArrayList<Object>();
+
+		queryArgs.add(nid);
+		if((flags & this.STAR) != 0){
+			sql+="AND StarStatus=? ";
+			queryArgs.add(star);
+		}
+		if((flags & this.READ) != 0){
+			sql+="AND ReadStatus=? ";
+			queryArgs.add(read);
+		}
+		sql+=";";
+		return jdbcTemplate.queryForObject(sql,queryArgs.toArray(),Integer.class);
+	}
+
 	public void update(NoticeStatus noticeStatus){
 		String sql="UPDATE NoticeStatus SET StarStatus=?,ReadStatus=? WHERE ID=? ;";
 		jdbcTemplate.update(sql,noticeStatus.getStar(),noticeStatus.getRead(),noticeStatus.getStatusID());
