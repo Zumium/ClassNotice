@@ -99,4 +99,10 @@ public class NoticeStatusDAO {
 		String sql="UPDATE NoticeStatus SET StarStatus=?,ReadStatus=? WHERE ID=? ;";
 		jdbcTemplate.update(sql,noticeStatus.getStar(),noticeStatus.getRead(),noticeStatus.getStatusID());
 	}
+
+	public void insert(NoticeStatus noticeStatus){
+		String sql="INSERT INTO NoticeStatus(Sid,Nid,StarStatus,ReadStatus) VALUES(?,?,?,?) ;";
+		jdbcTemplate.update(sql,noticeStatus.getSid(),noticeStatus.getNid(),noticeStatus.getStar(),noticeStatus.getRead());
+	}
+
 }

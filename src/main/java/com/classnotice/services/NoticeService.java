@@ -4,6 +4,7 @@ import com.classnotice.db.entities.Notice;
 import com.classnotice.db.entities.NoticeStatus;
 import com.classnotice.db.NoticeStatusDAO;
 import com.classnotice.db.NoticeDAO;
+import com.classnotice.beans.NewNotice;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,20 @@ public class NoticeService {
 	
 	public boolean getStar(String sid,int nid){
 		return noticeStatusDao.query(sid,nid).getStar();
+	}
+
+	public void publishNewNotice(NewNotice newNotice){
+		Notice notice=new Notice();
+		notice.setTitle(newNotice.getTitle());
+		notice.setContent(newNotice.getContent());
+		notice.setSender(newNotice.getSender());
+		notice.setPublishTime(newNotice.getPublishTime());
+		noticeDao.insert(notice);
+		
+		String[] receivers=newNotice.getReceivers();
+		for(String receiver: receivers){
+			noticeStatusDao.insert(new NoticeStatus(receiver,notice.getID(),false,false));
+		}
 	}
 
 	//Helper function

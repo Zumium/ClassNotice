@@ -8,6 +8,12 @@ public class NoticeStatus {
 	private boolean star;
 
 	public NoticeStatus(){}
+	public NoticeStatus(String sid,int nid,boolean star,boolean read){
+		this.sid=sid;
+		this.nid=nid;
+		this.star=star;
+		this.read=read;
+	}
 
 	public void setStatusID(long statusId){
 		this.statusId=statusId;

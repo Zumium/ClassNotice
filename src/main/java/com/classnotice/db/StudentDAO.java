@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 import com.classnotice.db.entities.Student;
 
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public class StudentDAO {
@@ -68,6 +70,30 @@ public class StudentDAO {
 				return student;
 			}
 		},id);
+	}
+
+	public List<Student> queryAll(){
+		String sql="SELECT * FROM Student ;";
+		return jdbcTemplate.query(sql,new RowMapper<Student>(){
+			public Student mapRow(ResultSet rs,int rowNum) throws SQLException{
+				Student student=new Student();
+				student.setID(rs.getString(1));
+				student.setName(rs.getString(2));
+				student.setPassword(rs.getString(3));
+				student.setRole(rs.getString(4));
+				return student;
+			}
+		});
+	}
+
+	public List<String> queryAllIds(){
+		String sql="SELECT ID FROM Student;";
+		return jdbcTemplate.queryForList(sql,String.class);
+	}
+
+	public List<String> queryCommitteeIds(){
+		String sql="SELECT ID FROM Student WHERE Role!='同学';";
+		return jdbcTemplate.queryForList(sql,String.class);
 	}
 }
 

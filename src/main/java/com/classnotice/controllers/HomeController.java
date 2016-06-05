@@ -33,6 +33,7 @@ public class HomeController{
 		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
 		model.addAttribute("readCount",noticeService.countReadNotice(uid));
 		model.addAttribute("starCount",noticeService.countStarNotice(uid));
+		model.addAttribute("isAdmin",userService.isAdmin(uid));
 	}
 
 	@RequestMapping(path="/",method=RequestMethod.GET)
@@ -66,6 +67,11 @@ public class HomeController{
 		model.addAttribute("listItems",produceListItems(starNotices,uid));
 
 		return "noticeList";
+	}
+
+	@RequestMapping(path="/publishNotice",method=RequestMethod.GET)
+	public String showPublishNoticePage(){
+		return "newNotice";
 	}
 
 	//helper function

@@ -10,9 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.File;
+import java.util.List;
 
 @Service
 public class UserService {
+
+	private static final String ROLE_CLASSMATE="同学";
+	private static final String GROUP_ALL="all";
+	private static final String GROUP_COMMITTEE="committee";
+	private static final String[] STRING_ARRAY={"A"};
 
 	@Autowired
 	private StudentDAO studentDao;
@@ -39,5 +45,24 @@ public class UserService {
 
 	public Student getStudent(String sid){
 		return studentDao.query(sid);
+	}
+	
+	public boolean isAdmin(String sid){
+		Student student=this.getStudent(sid);
+		return (!student.getRole().equals(ROLE_CLASSMATE));
+	}
+	
+	public List<Student> getAllStudents(){
+		return studentDao.queryAll();
+	}
+
+	public String[] getReceiversIdArray(String receiversGroup){
+		if(receiversGroup.equals(GROUP_ALL)){
+			return studentDao.queryAllIds().toArray(STRING_ARRAY);
+		}
+		else if(receiversGroup.equals(GROUP_COMMITTEE)){
+			return studentDao.queryCommitteeIds().toArray(STRING_ARRAY);
+		}
+		return null;
 	}
 }
