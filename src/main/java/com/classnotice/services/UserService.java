@@ -4,6 +4,7 @@ import com.classnotice.beans.Account;
 import com.classnotice.db.entities.Student;
 import com.classnotice.db.StudentDAO;
 import com.classnotice.db.PortraitDAO;
+import com.classnotice.db.GroupDAO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class UserService {
 	private StudentDAO studentDao;
 	@Autowired
 	private PortraitDAO portraitDao;
+	@Autowired
+	private GroupDAO groupDao;
 
 	@Autowired
 	private String portraitsFolderPath;
@@ -58,10 +61,12 @@ public class UserService {
 
 	public String[] getReceiversIdArray(String receiversGroup){
 		if(receiversGroup.equals(GROUP_ALL)){
-			return studentDao.queryAllIds().toArray(STRING_ARRAY);
+			//return studentDao.queryAllIds().toArray(STRING_ARRAY);
+			return groupDao.queryMembers("all");
 		}
 		else if(receiversGroup.equals(GROUP_COMMITTEE)){
-			return studentDao.queryCommitteeIds().toArray(STRING_ARRAY);
+			//return studentDao.queryCommitteeIds().toArray(STRING_ARRAY);
+			return groupDao.queryMembers("committee");
 		}
 		return null;
 	}

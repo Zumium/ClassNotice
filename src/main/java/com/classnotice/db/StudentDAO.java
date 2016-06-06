@@ -85,15 +85,5 @@ public class StudentDAO {
 			}
 		});
 	}
-
-	public List<String> queryAllIds(){
-		String sql="SELECT ID FROM Student;";
-		return jdbcTemplate.queryForList(sql,String.class);
-	}
-
-	public List<String> queryCommitteeIds(){
-		String sql="SELECT ID FROM Student WHERE Role!='同学';";
-		return jdbcTemplate.queryForList(sql,String.class);
-	}
 }
 
