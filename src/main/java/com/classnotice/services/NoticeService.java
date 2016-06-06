@@ -26,22 +26,22 @@ public class NoticeService {
 	private NoticeDAO noticeDao;
 
 	public int countUnreadNotice(String uid){
-		return noticeStatusDao.queryNoticeCount(uid,false,false,NoticeStatusDAO.READ);
+		return noticeStatusDao.queryCount(uid,0,false,false,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
 	}
 
 	public int countReadNotice(String uid){
-		return noticeStatusDao.queryNoticeCount(uid,false,true,NoticeStatusDAO.READ);
+		return noticeStatusDao.queryCount(uid,0,false,true,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
 	}
 	public int countReadNotice(int nid){
-		return noticeStatusDao.queryNoticeCount(nid,false,true,NoticeStatusDAO.READ);
+		return noticeStatusDao.queryCount(null,nid,false,true,NoticeStatusDAO.READ|NoticeStatusDAO.NID);
 	}
 
 	public int countStarNotice(String uid){
-		return noticeStatusDao.queryNoticeCount(uid,true,false,NoticeStatusDAO.STAR);
+		return noticeStatusDao.queryCount(uid,0,true,false,NoticeStatusDAO.STAR|NoticeStatusDAO.SID);
 	}
 
 	public int countTotalNotice(String uid){
-		return noticeStatusDao.queryNoticeCount(uid,false,false,0);
+		return noticeStatusDao.queryCount(uid,0,false,false,NoticeStatusDAO.SID);
 	}
 
 	public int countSentNotice(String sender){

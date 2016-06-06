@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class NoticeStatusDAO {
 	public static final int STAR=1;
 	public static final int READ=2;
+	public static final int SID=4;
+	public static final int NID=8;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -77,11 +79,21 @@ public class NoticeStatusDAO {
 		});
 	}
 
-	public int queryNoticeCount(String sid,boolean star,boolean read,int flags){
-		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? ";
+	public int queryCount(String sid,int nid,boolean star,boolean read,int flags){
+		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE ";
 		List<Object> queryArgs=new ArrayList<Object>();
 
-		queryArgs.add(sid);
+		if((flags & this.SID) != 0){
+			sql+="Sid=? ";
+			queryArgs.add(sid);
+		}
+		if(((flags & this.NID)!=0) && ((flags & this.SID)!=0)){
+			sql+="AND ";
+		}
+		if((flags & this.NID) != 0){
+			sql+="Nid=? ";
+			queryArgs.add(nid);
+		}
 		if((flags & this.STAR) != 0){
 			sql+="AND StarStatus=? ";
 			queryArgs.add(star);
@@ -92,23 +104,6 @@ public class NoticeStatusDAO {
 		}
 		sql+=";";
 		//String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Sid=? AND ReadStatus=? ;";
-		return jdbcTemplate.queryForObject(sql,queryArgs.toArray(),Integer.class);
-	}
-
-	public int queryNoticeCount(int nid,boolean star,boolean read,int flags){
-		String sql="SELECT COUNT(*) FROM NoticeStatus WHERE Nid=? ";
-		List<Object> queryArgs=new ArrayList<Object>();
-
-		queryArgs.add(nid);
-		if((flags & this.STAR) != 0){
-			sql+="AND StarStatus=? ";
-			queryArgs.add(star);
-		}
-		if((flags & this.READ) != 0){
-			sql+="AND ReadStatus=? ";
-			queryArgs.add(read);
-		}
-		sql+=";";
 		return jdbcTemplate.queryForObject(sql,queryArgs.toArray(),Integer.class);
 	}
 
