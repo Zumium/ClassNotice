@@ -51,11 +51,22 @@ public class NoticeStatusDAO {
 		},sid,nid);
 	}
 
-	public List<NoticeStatus> query(String sid,boolean star,boolean read,int flags){
-		String sql="SELECT * FROM NoticeStatus WHERE Sid=? ";
+	public List<NoticeStatus> query(String sid,int nid,boolean star,boolean read,int flags){
+		//String sql="SELECT * FROM NoticeStatus WHERE Sid=? ";
+		String sql="SELECT * FROM NoticeStatus WHERE ";
 		List<Object> queryArgs=new ArrayList<Object>();
 
-		queryArgs.add(sid);
+		if((flags & this.SID) !=0) {
+			sql+="Sid=? ";
+			queryArgs.add(sid);
+		}
+		if(((flags & this.NID)!=0) && ((flags & this.SID)!=0)){
+			sql+="AND ";
+		}
+		if((flags & this.NID) != 0){
+			sql+="Nid=? ";
+			queryArgs.add(nid);
+		}
 		if((flags & this.STAR) != 0){
 			sql+="AND StarStatus=? ";
 			queryArgs.add(star);

@@ -49,17 +49,17 @@ public class NoticeService {
 	}
 
 	public List<Notice> getUnreadNotice(String uid){
-		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,false,false,NoticeStatusDAO.READ);
+		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,0,false,false,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
 		return convertNoticeStatusToNotice(statusUnread);
 	}
 
 	public List<Notice> getReadNotice(String uid){
-		List<NoticeStatus> statusRead=noticeStatusDao.query(uid,false,true,NoticeStatusDAO.READ);
+		List<NoticeStatus> statusRead=noticeStatusDao.query(uid,0,false,true,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
 		return convertNoticeStatusToNotice(statusRead);
 	}
 
 	public List<Notice> getStarNotice(String uid){
-		List<NoticeStatus> statusStar=noticeStatusDao.query(uid,true,false,NoticeStatusDAO.STAR);
+		List<NoticeStatus> statusStar=noticeStatusDao.query(uid,0,true,false,NoticeStatusDAO.STAR|NoticeStatusDAO.SID);
 		return convertNoticeStatusToNotice(statusStar);
 	}
 
