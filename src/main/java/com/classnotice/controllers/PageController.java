@@ -33,29 +33,6 @@ public class PageController{
 	@Autowired
 	private UserService userService;
 
-	@ModelAttribute
-	public void setPersonalInfo(@ModelAttribute("uid") String uid,ModelMap model){
-		model.addAttribute("selfPortrait",userService.getPortraitUrl(uid));
-		model.addAttribute("starCount",noticeService.countStarNotice(uid));
-		model.addAttribute("sentCount",noticeService.countSentNotice(uid));
-		model.addAttribute("isAdmin",userService.isAdmin(uid));
-	}
-
-	@RequestMapping(path="/notice/{noticeId}",method=RequestMethod.GET)
-	public String showNotice(@ModelAttribute("uid") String uid,@PathVariable int noticeId,ModelMap model){
-		model.addAttribute("pageTitle","通知阅读");
-		//Find the notice and set it up,then put it into model
-		Notice notice=noticeService.getNotice(noticeId);
-		model.addAttribute("noticeItem",convertToListItem(notice,uid));
-		//Set read status to true
-		noticeService.setRead(uid,noticeId,true);
-		//Calculate page counts
-		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
-		model.addAttribute("readCount",noticeService.countReadNotice(uid));
-
-		return "readPage";
-	}
-
 	@RequestMapping(path="/ajax/notice/{noticeId}/star",method=RequestMethod.POST,consumes="application/json")
 	public ResponseEntity ajaxSetNoticeStatus(@ModelAttribute("uid") String uid,@PathVariable int noticeId,@RequestBody StarStatus starStatus){
 		noticeService.setStar(uid,noticeId,starStatus.getStar());
@@ -67,15 +44,5 @@ public class PageController{
 	public String ajaxGetStarCount(@ModelAttribute("uid") String uid){
 		int count=noticeService.countStarNotice(uid);
 		return "{\"num\":"+count+"}";
-	}
-
-	//helper function
-	private ListItem convertToListItem(Notice notice,String uid){
-		ListItem item=new ListItem();
-		item.setNotice(notice);
-		item.setSenderBanner(userService.getStudent(notice.getSender()));
-		item.setSenderPortrait(userService.getPortraitUrl(notice.getSender()));
-		item.setStar(noticeService.getStar(uid,notice.getID()));
-		return item;
 	}
 }

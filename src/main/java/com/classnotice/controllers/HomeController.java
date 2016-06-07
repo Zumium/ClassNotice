@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.ModelMap;
 
 import com.classnotice.services.NoticeService;
@@ -83,6 +84,20 @@ public class HomeController{
 		return "newNotice";
 	}
 
+	@RequestMapping(path="/notice/{noticeId}",method=RequestMethod.GET)
+	public String showNotice(@ModelAttribute("uid") String uid,@PathVariable int noticeId,ModelMap model){
+		model.addAttribute("pageTitle","通知阅读");
+		//Find the notice and set it up,then put it into model
+		Notice notice=noticeService.getNotice(noticeId);
+		model.addAttribute("noticeItem",convertToListItem(notice,uid));
+		//Set read status to true
+		noticeService.setRead(uid,noticeId,true);
+		//Calculate page counts
+		model.addAttribute("unreadCount",noticeService.countUnreadNotice(uid));
+		model.addAttribute("readCount",noticeService.countReadNotice(uid));
+		return "readPage";
+	}
+
 	//helper function
 	private List<ListItem> produceListItems(List<Notice> notices,String uid){
 		List<ListItem> listItems=new ArrayList<ListItem>();
@@ -115,5 +130,14 @@ public class HomeController{
 			readStatuses.add(newStatus);
 		}
 		return readStatuses;
+	}
+	//helper function
+	private ListItem convertToListItem(Notice notice,String uid){
+		ListItem item=new ListItem();
+		item.setNotice(notice);
+		item.setSenderBanner(userService.getStudent(notice.getSender()));
+		item.setSenderPortrait(userService.getPortraitUrl(notice.getSender()));
+		item.setStar(noticeService.getStar(uid,notice.getID()));
+		return item;
 	}
 }
