@@ -2,3 +2,5 @@
 build
 sendToServer
 *.swp
+gradle
+gradlew
