@@ -127,6 +127,7 @@ public class HomeController{
 			newStatus.setNotice(notice);
 			newStatus.setReadCount(noticeService.countReadNotice(notice.getID()));
 			newStatus.setNoticePath(noticeService.getNoticePath(notice.getID()));
+			newStatus.setReceiversCount(noticeService.countReceivers(notice.getID()));
 			readStatuses.add(newStatus);
 		}
 		return readStatuses;

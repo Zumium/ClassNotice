@@ -48,7 +48,7 @@
 					<h4 class="media-heading">
 						${eachStatus.notice.title}
 						<time>${eachStatus.notice.publishTime}</time>
-						<p class="readnum">阅读人数：<span>${eachStatus.readCount}人</span></p>
+						<p class="readnum">阅读人数：<span>${eachStatus.readCount}人/${eachStatus.receiversCount}人</span></p>
 					</h4>
 				</div>
 			</li>

@@ -48,6 +48,10 @@ public class NoticeService {
 		return noticeDao.queryCountBySender(sender);
 	}
 
+	public int countReceivers(int nid){
+		return noticeStatusDao.queryCount(null,nid,false,false,NoticeStatusDAO.NID);
+	}
+
 	public List<Notice> getUnreadNotice(String uid){
 		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,0,false,false,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
 		return convertNoticeStatusToNotice(statusUnread);

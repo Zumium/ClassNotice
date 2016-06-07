@@ -5,6 +5,7 @@ import com.classnotice.db.entities.Notice;
 public class ReadStatus {
 	private Notice notice;
 	private int readCount;
+	private int receiversCount;
 	private String noticePath;
 
 	public ReadStatus(){}
@@ -28,5 +29,12 @@ public class ReadStatus {
 	}
 	public String getNoticePath(){
 		return this.noticePath;
+	}
+
+	public void setReceiversCount(int receiversCount){
+		this.receiversCount=receiversCount;
+	}
+	public int getReceiversCount(){
+		return this.receiversCount;
 	}
 }
