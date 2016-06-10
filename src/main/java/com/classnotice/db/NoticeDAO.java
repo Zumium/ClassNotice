@@ -17,6 +17,9 @@ import java.util.ArrayList;
 @Repository
 public class NoticeDAO {
 	
+	public static final int STAR=1;
+	public static final int READ=2;
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -33,6 +36,34 @@ public class NoticeDAO {
 				return notice;
 			}
 		},id);
+	}
+
+	public List<Notice> query(String sid,boolean star,boolean read,int flags){
+		String sql="SELECT N.* FROM NoticeStatus AS NS JOIN Notice AS N ON NS.Nid=N.ID WHERE NS.Sid=? ";
+		List<Object> args=new ArrayList<Object>();
+
+		args.add(sid);
+		if((flags & this.STAR) != 0){
+			sql+="AND StarStatus=? ";
+			args.add(star);
+		}
+		if((flags & this.READ) != 0){
+			sql+="AND ReadStatus=? ";
+			args.add(read);
+		}
+		sql+="ORDER BY N.PublishTime DESC;";
+
+		return jdbcTemplate.query(sql,args.toArray(),new RowMapper<Notice>(){
+			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException{
+				Notice notice=new Notice();
+				notice.setID(rs.getInt(1));
+				notice.setTitle(rs.getString(2));
+				notice.setContent(rs.getString(3));
+				notice.setSender(rs.getString(4));
+				notice.setPublishTime(rs.getTimestamp(5));
+				return notice;
+			}
+		});
 	}
 
 	public List<Notice> queryBySender(String sender){

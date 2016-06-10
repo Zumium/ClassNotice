@@ -53,18 +53,15 @@ public class NoticeService {
 	}
 
 	public List<Notice> getUnreadNotice(String uid){
-		List<NoticeStatus> statusUnread=noticeStatusDao.query(uid,0,false,false,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
-		return convertNoticeStatusToNotice(statusUnread);
+		return noticeDao.query(uid,false,false,NoticeDAO.READ);
 	}
 
 	public List<Notice> getReadNotice(String uid){
-		List<NoticeStatus> statusRead=noticeStatusDao.query(uid,0,false,true,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
-		return convertNoticeStatusToNotice(statusRead);
+		return noticeDao.query(uid,false,true,NoticeDAO.READ);
 	}
 
 	public List<Notice> getStarNotice(String uid){
-		List<NoticeStatus> statusStar=noticeStatusDao.query(uid,0,true,false,NoticeStatusDAO.STAR|NoticeStatusDAO.SID);
-		return convertNoticeStatusToNotice(statusStar);
+		return noticeDao.query(uid,true,false,NoticeDAO.STAR);
 	}
 
 	public List<Notice> getSentNotice(String sender){
@@ -111,21 +108,4 @@ public class NoticeService {
 		return NOTICE_PATH_BASE+nid;
 	}
 
-	//Helper function
-	private List<Notice> convertNoticeStatusToNotice(List<NoticeStatus> noticeStatuses){
-		Iterator<NoticeStatus> statusIterator=noticeStatuses.iterator();
-		List<Notice> notices=new ArrayList<Notice>();
-		while(statusIterator.hasNext()){
-			NoticeStatus noticeStatus=statusIterator.next();
-			Notice notice=noticeDao.query(noticeStatus.getNid());
-			notices.add(notice);
-		}
-		notices.sort(Comparator.comparingLong(new ToLongFunction<Notice>(){
-			public long applyAsLong(Notice notice){
-				return notice.getPublishTime().getTime();
-			}
-		}).reversed());
-
-		return notices;
-	}
 }
