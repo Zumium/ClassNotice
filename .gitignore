@@ -4,3 +4,4 @@ sendToServer
 *.swp
 gradle
 gradlew
+.DS_Store
