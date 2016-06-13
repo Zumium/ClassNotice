@@ -90,6 +90,10 @@ public class NoticeService {
 		return noticeStatusDao.query(sid,nid).getStar();
 	}
 
+	public boolean getRead(String sid,int nid){
+		return noticeStatusDao.query(sid,nid).getRead();
+	}
+
 	public void publishNewNotice(NewNotice newNotice){
 		Notice notice=new Notice();
 		notice.setTitle(newNotice.getTitle());
