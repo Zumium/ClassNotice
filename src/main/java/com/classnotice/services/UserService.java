@@ -62,11 +62,11 @@ public class UserService {
 	public String[] getReceiversIdArray(String receiversGroup){
 		if(receiversGroup.equals(GROUP_ALL)){
 			//return studentDao.queryAllIds().toArray(STRING_ARRAY);
-			return groupDao.queryMembers("all");
+			return groupDao.queryMembers(null,"all");
 		}
 		else if(receiversGroup.equals(GROUP_COMMITTEE)){
 			//return studentDao.queryCommitteeIds().toArray(STRING_ARRAY);
-			return groupDao.queryMembers("committee");
+			return groupDao.queryMembers(null,"committee");
 		}
 		return null;
 	}
