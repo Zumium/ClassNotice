@@ -1,6 +1,7 @@
 .gradle
 build
 sendToServer
+sendToDocker
 *.swp
 gradle
 gradlew
