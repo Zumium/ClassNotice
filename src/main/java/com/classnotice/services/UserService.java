@@ -2,13 +2,13 @@ package com.classnotice.services;
 
 import com.classnotice.beans.Account;
 import com.classnotice.db.entities.Student;
-import com.classnotice.db.StudentDAO;
 import com.classnotice.db.PortraitDAO;
 import com.classnotice.db.GroupDAO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.repository.CrudRepository;
 
 import java.io.File;
 import java.util.List;
@@ -22,14 +22,14 @@ public class UserService {
 	private static final String[] STRING_ARRAY={"A"};
 
 	@Autowired
-	private StudentDAO studentDao;
+	private CrudRepository<Student,String> studentDao;
 	@Autowired
 	private PortraitDAO portraitDao;
 	@Autowired
 	private GroupDAO groupDao;
 
 	public boolean vertifyUserAccount(Account account) {
-		Student loginStudent=studentDao.query(account.getId());
+		Student loginStudent=studentDao.findOne(account.getId());
 		if(loginStudent==null){
 			return false;
 		}
@@ -44,7 +44,7 @@ public class UserService {
 	}
 
 	public Student getStudent(String sid){
-		return studentDao.query(sid);
+		return studentDao.findOne(sid);
 	}
 	
 	public boolean isAdmin(String sid){
@@ -53,7 +53,7 @@ public class UserService {
 	}
 	
 	public List<Student> getAllStudents(){
-		return studentDao.queryAll();
+		return (List<Student>)studentDao.findAll();
 	}
 
 	public String[] getReceiversIdArray(String receiversGroup){
