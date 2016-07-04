@@ -121,10 +121,15 @@ public class StudentDAOImpl implements StudentDAO{
 
 	@Override
 	public <S extends Student> S save(S student){
-		String sql=String.format("UPDATE %s SET Name=?,Password=?,Role=? WHERE ID=?;",TABLE_NAME);
-		int ret=jdbcTemplate.update(sql,student.getName(),student.getPassword(),student.getRole(),student.getID());
-		if(ret!=0){
-			return student;
+		if(this.exists(student.getID())){
+			String sql=String.format("UPDATE %s SET Name=?,Password=?,Role=? WHERE ID=?;",TABLE_NAME);
+			int ret=jdbcTemplate.update(sql,student.getName(),student.getPassword(),student.getRole(),student.getID());
+			if(ret!=0) return student;
+		}
+		else{
+			String sql=String.format("INSERT INTO %s(ID,Name,Password,Role) VALUES(?,?,?,?)",TABLE_NAME);
+			int ret=jdbcTemplate.update(sql,student.getID(),student.getName(),student.getPassword(),student.getRole());
+			if(ret!=0) return student;
 		}
 		return null;
 	}

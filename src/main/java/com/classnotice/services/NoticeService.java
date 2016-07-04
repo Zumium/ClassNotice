@@ -45,7 +45,7 @@ public class NoticeService {
 	}
 
 	public int countSentNotice(String sender){
-		return noticeDao.queryCountBySender(sender);
+		return noticeDao.countSent(sender);
 	}
 
 	public int countReceivers(int nid){
@@ -53,23 +53,23 @@ public class NoticeService {
 	}
 
 	public List<Notice> getUnreadNotice(String uid){
-		return noticeDao.query(uid,false,false,NoticeDAO.READ);
+		return noticeDao.findRecv(uid,false,false,NoticeDAO.READ);
 	}
 
 	public List<Notice> getReadNotice(String uid){
-		return noticeDao.query(uid,false,true,NoticeDAO.READ);
+		return noticeDao.findRecv(uid,false,true,NoticeDAO.READ);
 	}
 
 	public List<Notice> getStarNotice(String uid){
-		return noticeDao.query(uid,true,false,NoticeDAO.STAR);
+		return noticeDao.findRecv(uid,true,false,NoticeDAO.STAR);
 	}
 
 	public List<Notice> getSentNotice(String sender){
-		return noticeDao.queryBySender(sender);
+		return noticeDao.findSent(sender);
 	}
 
 	public Notice getNotice(int nid){
-		return noticeDao.query(nid);
+		return noticeDao.findOne(nid);
 	}
 
 	public void setStar(String sid,int nid,boolean star){
@@ -100,7 +100,7 @@ public class NoticeService {
 		notice.setContent(newNotice.getContent());
 		notice.setSender(newNotice.getSender());
 		notice.setPublishTime(newNotice.getPublishTime());
-		noticeDao.insert(notice);
+		notice=noticeDao.save(notice);
 		
 		String[] receivers=newNotice.getReceivers();
 		for(String receiver: receivers){
