@@ -4,9 +4,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.data.repository.CrudRepository;
 
 import com.classnotice.db.entities.Student;
+import com.classnotice.db.StudentDAO;
 
 import java.sql.*;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 @Repository("studentDao")
-public class StudentDAOImpl implements CrudRepository<Student,String>{
+public class StudentDAOImpl implements StudentDAO{
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
