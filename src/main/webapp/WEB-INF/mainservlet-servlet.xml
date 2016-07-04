@@ -39,10 +39,6 @@
 		<constructor-arg ref="dataSource" />
 	</bean>
 
-	<bean id="portraitsFolderPath" class="java.lang.String">
-		<constructor-arg index="0" value="/home/martin/ClassNoticeResources/portraits/" />
-	</bean>
-
 	<bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<property name="usePool" value="true" />
 		<property name="hostName" value="redis" />

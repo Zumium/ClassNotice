@@ -28,9 +28,6 @@ public class UserService {
 	@Autowired
 	private GroupDAO groupDao;
 
-	@Autowired
-	private String portraitsFolderPath;
-
 	public boolean vertifyUserAccount(Account account) {
 		Student loginStudent=studentDao.query(account.getId());
 		if(loginStudent==null){
