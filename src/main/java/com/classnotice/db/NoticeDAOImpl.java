@@ -286,6 +286,9 @@ public class NoticeDAOImpl implements NoticeDAO{
 			sql+="AND ReadStatus=? ";
 			args.add(read);
 		}
+		if((flags & this.PARTLY) != 0){
+			sql+=String.format("LIMIT %d OFFSET %d ",limit,offset);
+		}
 		sql+="ORDER BY N.PublishTime DESC;";
 
 		return jdbcTemplate.query(sql,args.toArray(),new RowMapper<Notice>(){
