@@ -26,22 +26,22 @@ public class NoticeService {
 	private NoticeDAO noticeDao;
 
 	public int countUnreadNotice(String uid){
-		return noticeStatusDao.queryCount(uid,0,false,false,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
+		return noticeStatusDao.count(uid,false,false,NoticeStatusDAO.READ);
 	}
 
 	public int countReadNotice(String uid){
-		return noticeStatusDao.queryCount(uid,0,false,true,NoticeStatusDAO.READ|NoticeStatusDAO.SID);
+		return noticeStatusDao.count(uid,false,true,NoticeStatusDAO.READ);
 	}
 	public int countReadNotice(int nid){
-		return noticeStatusDao.queryCount(null,nid,false,true,NoticeStatusDAO.READ|NoticeStatusDAO.NID);
+		return noticeStatusDao.count(nid,false,true,NoticeStatusDAO.READ);
 	}
 
 	public int countStarNotice(String uid){
-		return noticeStatusDao.queryCount(uid,0,true,false,NoticeStatusDAO.STAR|NoticeStatusDAO.SID);
+		return noticeStatusDao.count(uid,true,false,NoticeStatusDAO.STAR);
 	}
 
 	public int countTotalNotice(String uid){
-		return noticeStatusDao.queryCount(uid,0,false,false,NoticeStatusDAO.SID);
+		return noticeStatusDao.count(uid);
 	}
 
 	public int countSentNotice(String sender){
@@ -49,7 +49,7 @@ public class NoticeService {
 	}
 
 	public int countReceivers(int nid){
-		return noticeStatusDao.queryCount(null,nid,false,false,NoticeStatusDAO.NID);
+		return noticeStatusDao.count(nid);
 	}
 
 	public List<Notice> getUnreadNotice(String uid){
@@ -73,25 +73,25 @@ public class NoticeService {
 	}
 
 	public void setStar(String sid,int nid,boolean star){
-		NoticeStatus status=noticeStatusDao.query(sid,nid);
+		NoticeStatus status=noticeStatusDao.findOne(sid,nid);
 		if(status.getStar()==star) return; //avoid useless i/o
 		status.setStar(star);
-		noticeStatusDao.update(status);
+		noticeStatusDao.save(status);
 	}
 
 	public void setRead(String sid,int nid,boolean read){
-		NoticeStatus status=noticeStatusDao.query(sid,nid);
+		NoticeStatus status=noticeStatusDao.findOne(sid,nid);
 		if(status.getRead()==read) return; //avoid useless i/o
 		status.setRead(read);
-		noticeStatusDao.update(status);
+		noticeStatusDao.save(status);
 	}
 	
 	public boolean getStar(String sid,int nid){
-		return noticeStatusDao.query(sid,nid).getStar();
+		return noticeStatusDao.findOne(sid,nid).getStar();
 	}
 
 	public boolean getRead(String sid,int nid){
-		return noticeStatusDao.query(sid,nid).getRead();
+		return noticeStatusDao.findOne(sid,nid).getRead();
 	}
 
 	public void publishNewNotice(NewNotice newNotice){
@@ -104,7 +104,7 @@ public class NoticeService {
 		
 		String[] receivers=newNotice.getReceivers();
 		for(String receiver: receivers){
-			noticeStatusDao.insert(new NoticeStatus(receiver,notice.getID(),false,false));
+			noticeStatusDao.save(new NoticeStatus(receiver,notice.getID(),false,false));
 		}
 	}
 	
