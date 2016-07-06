@@ -257,8 +257,29 @@ public class NoticeDAOImpl implements NoticeDAO{
 	}
 
 	@Override
+	public List<Notice> findSent(String senderId,int limit,int offset){
+		String sql=String.format("SELECT * FROM %s WHERE Sender=? ORDER BY PublishTime DESC LIMIT %d OFFSET %d;",TABLENAME_NOTICE,limit,offset);
+		return jdbcTemplate.query(sql,new RowMapper<Notice>(){
+			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException{
+				Notice notice=new Notice();
+				notice.setID(rs.getInt(1));
+				notice.setTitle(rs.getString(2));
+				notice.setContent(rs.getString(3));
+				notice.setSender(rs.getString(4));
+				notice.setPublishTime(rs.getTimestamp(5));
+				return notice;
+			}
+		},senderId);
+	}
+
+	@Override
 	public List<Notice> findRecv(String sid){
 		return query(sid,false,false,0,0,0);
+	}
+
+	@Override
+	public List<Notice> findRecv(String sid,int limit,int offset){
+		return query(sid,false,false,limit,offset,this.PARTLY);
 	}
 
 	@Override
@@ -286,10 +307,12 @@ public class NoticeDAOImpl implements NoticeDAO{
 			sql+="AND ReadStatus=? ";
 			args.add(read);
 		}
+		sql+="ORDER BY N.PublishTime DESC ";
 		if((flags & this.PARTLY) != 0){
 			sql+=String.format("LIMIT %d OFFSET %d ",limit,offset);
 		}
-		sql+="ORDER BY N.PublishTime DESC;";
+		//sql+="ORDER BY N.PublishTime DESC;";
+		sql+=";";
 
 		return jdbcTemplate.query(sql,args.toArray(),new RowMapper<Notice>(){
 			public Notice mapRow(ResultSet rs,int rowNum) throws SQLException{

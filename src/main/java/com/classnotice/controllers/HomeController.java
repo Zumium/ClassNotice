@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.ModelMap;
 
 import com.classnotice.services.NoticeService;
@@ -40,41 +41,41 @@ public class HomeController{
 	}
 
 	@RequestMapping(path="/",method=RequestMethod.GET)
-	public String showUnreadList(@ModelAttribute("uid") String uid,ModelMap model){
+	public String showUnreadList(@RequestParam(name="page",defaultValue="0",required=false) int page,@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("pageTitle","未读通知");
 		model.addAttribute("pageIndex",0);
 		//Assemble main list using "ListItem" bean
-		List<Notice> unreadNotices=noticeService.getUnreadNotice(uid);
+		List<Notice> unreadNotices=noticeService.getUnreadNotice(uid,page);
 		model.addAttribute("listItems",produceListItems(unreadNotices,uid));
 
 		return "noticeList";
 	}
 
 	@RequestMapping(path="/read",method=RequestMethod.GET)
-	public String showReadList(@ModelAttribute("uid") String uid,ModelMap model){
+	public String showReadList(@RequestParam(name="page",defaultValue="0",required=false) int page,@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("pageTitle","已读通知");
 		model.addAttribute("pageIndex",1);
 		//Assemble main list using "ListItem" bean
-		List<Notice> readNotices=noticeService.getReadNotice(uid);
+		List<Notice> readNotices=noticeService.getReadNotice(uid,page);
 		model.addAttribute("listItems",produceListItems(readNotices,uid));
 
 		return "noticeList";
 	}
 
 	@RequestMapping(path="/star",method=RequestMethod.GET)
-	public String showStarList(@ModelAttribute("uid") String uid,ModelMap model){
+	public String showStarList(@RequestParam(name="page",defaultValue="0",required=false) int page,@ModelAttribute("uid") String uid,ModelMap model){
 		model.addAttribute("pageTitle","标星通知");
 		model.addAttribute("pageIndex",2);
 		//Assemble main list using "ListItem" bean
-		List<Notice> starNotices=noticeService.getStarNotice(uid);
+		List<Notice> starNotices=noticeService.getStarNotice(uid,page);
 		model.addAttribute("listItems",produceListItems(starNotices,uid));
 
 		return "noticeList";
 	}
 
 	@RequestMapping(path="/readStatus",method=RequestMethod.GET)
-	public String showReadStatus(@ModelAttribute("uid") String uid,ModelMap model){
-		List<Notice> sentNotices=noticeService.getSentNotice(uid);
+	public String showReadStatus(@RequestParam(name="page",defaultValue="0",required=false) int page,@ModelAttribute("uid") String uid,ModelMap model){
+		List<Notice> sentNotices=noticeService.getSentNotice(uid,page);
 		model.addAttribute("readStatuses",produceReadStatuses(sentNotices));
 		return "readStatus";
 	}

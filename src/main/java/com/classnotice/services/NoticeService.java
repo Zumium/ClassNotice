@@ -19,6 +19,8 @@ import java.util.function.ToLongFunction;
 public class NoticeService {
 
 	private static final String NOTICE_PATH_BASE="/notice/";
+	private static final int NOTICE_PAGESIZE=4; //4 notices for each page
+	private static final int NOTICESTATUS_PAGESIZE=5; //5 noticestatuses for each page
 
 	@Autowired
 	private NoticeStatusDAO noticeStatusDao;
@@ -52,20 +54,20 @@ public class NoticeService {
 		return noticeStatusDao.count(nid);
 	}
 
-	public List<Notice> getUnreadNotice(String uid){
-		return noticeDao.findRecv(uid,false,false,NoticeDAO.READ);
+	public List<Notice> getUnreadNotice(String uid,int page){
+		return noticeDao.findRecv(uid,false,false,NoticeDAO.READ,NOTICE_PAGESIZE,calNoticePagingOffset(page));
 	}
 
-	public List<Notice> getReadNotice(String uid){
-		return noticeDao.findRecv(uid,false,true,NoticeDAO.READ);
+	public List<Notice> getReadNotice(String uid,int page){
+		return noticeDao.findRecv(uid,false,true,NoticeDAO.READ,NOTICE_PAGESIZE,calNoticePagingOffset(page));
 	}
 
-	public List<Notice> getStarNotice(String uid){
-		return noticeDao.findRecv(uid,true,false,NoticeDAO.STAR);
+	public List<Notice> getStarNotice(String uid,int page){
+		return noticeDao.findRecv(uid,true,false,NoticeDAO.STAR,NOTICE_PAGESIZE,calNoticePagingOffset(page));
 	}
 
-	public List<Notice> getSentNotice(String sender){
-		return noticeDao.findSent(sender);
+	public List<Notice> getSentNotice(String sender,int page){
+		return noticeDao.findSent(sender,NOTICESTATUS_PAGESIZE,calNoticeStatusPagingOffset(page));
 	}
 
 	public Notice getNotice(int nid){
@@ -110,6 +112,15 @@ public class NoticeService {
 	
 	public String getNoticePath(int nid){
 		return NOTICE_PATH_BASE+nid;
+	}
+
+	//calculate offset for paging(notice)
+	private int calNoticePagingOffset(int page){
+		return page*NOTICE_PAGESIZE;
+	}
+	//calculate offset for paging(noticestatus)
+	private int calNoticeStatusPagingOffset(int page){
+		return page*NOTICESTATUS_PAGESIZE;
 	}
 
 }
