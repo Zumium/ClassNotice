@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.classnotice.db.GroupDAO;
 
-@Repository
+@Repository("groupDao")
 public class GroupDAOImpl implements GroupDAO{
 	private static final String prefix="classnotice_group_";
 	private static final String UNDERSCORE="_";
@@ -28,6 +28,7 @@ public class GroupDAOImpl implements GroupDAO{
 		return prefix+sid+UNDERSCORE+groupName;
 	}
 
+	@Override
 	public String[] queryMembers(String sid,String groupName){
 		String groupKey=null;
 		if(sid==null) groupKey=key(groupName);
@@ -38,6 +39,7 @@ public class GroupDAOImpl implements GroupDAO{
 		return groupMembers.toArray(STRING_ARRAY);
 	}
 
+	@Override
 	public void setMembers(String sid,String groupName,String[] members){
 		String groupKey=null;
 		if(sid==null) groupKey=key(groupName);
@@ -50,6 +52,7 @@ public class GroupDAOImpl implements GroupDAO{
 		this.addMembers(sid,groupName,members);
 	}
 
+	@Override
 	public void addMembers(String sid,String groupName,String[] members){
 		String groupKey=null;
 		if(sid==null) groupKey=key(groupName);
@@ -59,6 +62,7 @@ public class GroupDAOImpl implements GroupDAO{
 		for(String member: members) group.add(member);
 	}
 
+	@Override
 	public void removeMembers(String sid,String groupName,String[] members){
 		String groupKey=null;
 		if(sid==null) groupKey=key(groupName);

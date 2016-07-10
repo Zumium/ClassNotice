@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.BoundValueOperations;
 
 import com.classnotice.db.PortraitDAO;
 
-@Repository
+@Repository("portraitDao")
 public class PortraitDAOImpl implements PortraitDAO {
 
 	private static final String hasPortraitPrefix="has_portrait_";
@@ -23,6 +23,7 @@ public class PortraitDAOImpl implements PortraitDAO {
 		return hasPortraitPrefix+sid;
 	}
 
+	@Override
 	public boolean queryPortraitExists(String sid){
 		String keyBoundToSid=key(sid);
 		if(!redis.hasKey(keyBoundToSid)){
@@ -33,6 +34,7 @@ public class PortraitDAOImpl implements PortraitDAO {
 		return queryResultString.equals(HAS_PORTRAIT);
 	}
 
+	@Override
 	public void setPortraitExists(String sid,boolean isExists){
 		if(isExists){
 			redis.boundValueOps(key(sid)).set(HAS_PORTRAIT);
