@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.classnotice.beans.Account;
 import com.classnotice.services.UserService;
@@ -25,7 +26,7 @@ public class LoginController{
 	}
 
 	@RequestMapping(path="/login",method=RequestMethod.POST)
-	public String processLogin(@ModelAttribute Account account,ModelMap model){
+	public String processLogin(@ModelAttribute Account account,ModelMap model,RedirectAttributes redirectAttrs){
 		if(userService.vertifyUserAccount(account)){ //检查账户
 			//通过,跳转到主页
 			model.addAttribute("uid",account.getId());
@@ -33,6 +34,7 @@ public class LoginController{
 		}
 		else{
 			//不通过，转到/login
+			redirectAttrs.addAttribute("loginError","用户名或密码错误");
 			return "redirect:/login";
 		}
 	}
