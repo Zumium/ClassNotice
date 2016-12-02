@@ -1,7 +1,7 @@
 <web-app id="ClassNotice" version="3.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 	 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 	<servlet>
 		<servlet-name>mainservlet</servlet-name>
@@ -10,10 +10,10 @@
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-        <servlet-mapping>
+  <servlet-mapping>
 		<servlet-name>mainservlet</servlet-name>
 		<url-pattern>/</url-pattern>
-        </servlet-mapping>
+  </servlet-mapping>
 	<filter>
 		<filter-name>encoding-filter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
